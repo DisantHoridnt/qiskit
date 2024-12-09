@@ -1,5 +1,7 @@
 [workspace]
-members = ["crates/*"]
+members = [
+    "crates/*"
+]
 resolver = "2"
 
 [workspace.package]
@@ -41,6 +43,7 @@ qiskit-accelerate = { path = "crates/accelerate" }
 qiskit-circuit = { path = "crates/circuit" }
 qiskit-qasm2 = { path = "crates/qasm2" }
 qiskit-qasm3 = { path = "crates/qasm3" }
+qiskit_rust_c_api = { path = "crates/qiskit_rust_c_api" }
 
 [profile.release]
 lto = 'fat'

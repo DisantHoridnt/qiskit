@@ -174,10 +174,64 @@ pub extern "C" fn free_transpiled_circuit(transpiled: *mut TranspiledCircuit) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use qiskit::quantum_circuit::QuantumCircuit;
 
     #[test]
     fn it_works() {
         let result = add(2, 2);
         assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn test_create_quantum_circuit() {
+        let circuit = create_quantum_circuit();
+        assert!(!circuit.is_null());
+        free_quantum_circuit(circuit);
+    }
+
+    #[test]
+    fn test_add_hadamard() {
+        let circuit = create_quantum_circuit();
+        let result = add_hadamard(circuit, 0);
+        assert_eq!(result, 0); // Success
+        free_quantum_circuit(circuit);
+    }
+
+    #[test]
+    fn test_add_hadamard_null_circuit() {
+        let result = add_hadamard(std::ptr::null_mut(), 0);
+        assert_eq!(result, -1); // Null pointer error
+    }
+
+    #[test]
+    fn test_add_hadamard_invalid_qubit() {
+        let circuit = create_quantum_circuit();
+        let result = add_hadamard(circuit, 1); // Assuming circuit has only 1 qubit
+        assert_eq!(result, -2); // Invalid qubit index error
+        free_quantum_circuit(circuit);
+    }
+
+    #[test]
+    fn test_add_cnot() {
+        let circuit = create_quantum_circuit();
+        let result = add_cnot(circuit, 0, 1);
+        assert_eq!(result, 0); // Success
+        free_quantum_circuit(circuit);
+    }
+
+    #[test]
+    fn test_apply_basic_transpiler_pass() {
+        let circuit = create_quantum_circuit();
+        let result = apply_basic_transpiler_pass(circuit);
+        assert_eq!(result, 0); // Success
+        free_quantum_circuit(circuit);
+    }
+
+    #[test]
+    fn test_apply_advanced_transpiler_pass() {
+        let circuit = create_quantum_circuit();
+        let result = apply_advanced_transpiler_pass(circuit);
+        assert_eq!(result, 0); // Success
+        free_quantum_circuit(circuit);
     }
 }
